@@ -14,9 +14,7 @@ class StackedHistogram:
         self._value_column = value_column
         self._aggregation = aggregation
         self._input_df = df
-        self._grouped_df = self._group_data().unstack()
         plt.style.use("seaborn")
-        self._grouped_df.plot(kind="area", stacked=True)
 
         # plt.show()
 
@@ -43,8 +41,11 @@ class StackedHistogram:
         return new_group
 
     def to_json(self):
+        self._grouped_df = self._group_data().unstack()
         json_str = self._grouped_df.to_json()
         return json.loads(json_str)
 
     def save_plot(self, filename):
+        self._grouped_df = self._group_data().unstack()
+        self._grouped_df.plot(kind="area", stacked=True)
         plt.savefig(filename)
