@@ -6,13 +6,17 @@ import matplotlib.pyplot as plt
 
 class StackedHistogram:
     def __init__(
-        self, date_column_name, grouping_column, value_column, df, aggregation="sum"
+        self,
+        date_column_name,
+        grouping_column,
+        value_column,
+        df,
     ):
         self._max_groupings = 5
         self._date_column_name = date_column_name
         self._grouping_column = grouping_column
         self._value_column = value_column
-        self._aggregation = aggregation
+        self._aggregation = "sum"
         self._input_df = df
         plt.style.use("seaborn")
 
@@ -20,6 +24,13 @@ class StackedHistogram:
 
     def set_max_groupings(self, max_groupings):
         self._max_groupings = max_groupings
+
+    def set_aggregation(self, aggregation):
+        possible_values = ["sum", "count"]
+        assert (
+            aggregation in possible_values
+        ), f"aggregation must be one of: {possible_values}"
+        self._aggregation = aggregation
 
     def _group_data(self):
         largest_df = (
