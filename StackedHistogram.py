@@ -18,6 +18,9 @@ class StackedHistogram:
 
         # plt.show()
 
+    def set_max_groupings(self, max_groupings):
+        self._max_groupings = max_groupings
+
     def _group_data(self):
         largest_df = (
             self._input_df.groupby([self._grouping_column])[self._value_column]
@@ -43,7 +46,8 @@ class StackedHistogram:
     def to_json(self):
         self._grouped_df = self._group_data().unstack()
         json_str = self._grouped_df.to_json()
-        return json.loads(json_str)
+        json_dict = json.loads(json_str)
+        return json_dict
 
     def save_plot(self, filename):
         self._grouped_df = self._group_data().unstack()
