@@ -19,10 +19,8 @@ class StackedHistGramUnit(unittest.TestCase):
 
         # Assert
         expected = {
-            "('2021-01-01', 'apple')": 35,
-            "('2021-01-01', 'pears')": 5,
-            "('2021-01-02', 'apple')": 10,
-            "('2021-01-02', 'pears')": 20,
+            "apple": {"2021-01-01": 35, "2021-01-02": 10},
+            "pears": {"2021-01-01": 5, "2021-01-02": 20},
         }
         self.assertEqual(results, expected)
 
@@ -37,18 +35,14 @@ class StackedHistGramUnit(unittest.TestCase):
 
         # Assert
         expected = {
-            "('2021-01-01', 'apple')": 35,
-            "('2021-01-01', 'bananas')": 7,
-            "('2021-01-01', 'oranges')": 13,
-            "('2021-01-01', 'pears')": 5,
-            "('2021-01-01', 'pineapple')": 7,
-            "('2021-01-02', 'apple')": 1,
-            "('2021-01-02', 'bananas')": 6,
-            "('2021-01-02', 'oranges')": 10,
-            "('2021-01-02', 'pears')": 9,
-            "('2021-01-02', 'pineapple')": 6,
+            "apple": {"2021-01-01": 35, "2021-01-02": 1},
+            "bananas": {"2021-01-01": 7, "2021-01-02": 6},
+            "oranges": {"2021-01-01": 13, "2021-01-02": 10},
+            "pears": {"2021-01-01": 5, "2021-01-02": 9},
+            "pineapple": {"2021-01-01": 7, "2021-01-02": 6},
         }
         self.assertEqual(results, expected)
+        subject.save_plot("temp.png")
 
 
 if __name__ == "__main__":

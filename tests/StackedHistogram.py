@@ -1,6 +1,7 @@
 import json
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 class StackedHistogram:
@@ -10,7 +11,10 @@ class StackedHistogram:
         self._grouping_column = grouping_column
         self._value_column = value_column
         self._input_df = df
-        self._grouped_df = self._group_data()
+        self._grouped_df = self._group_data().unstack()
+
+        self._grouped_df.plot(kind="bar", stacked=True)
+        # plt.show()
 
     def _group_data(self):
         largest_df = (
@@ -32,3 +36,6 @@ class StackedHistogram:
     def to_json(self):
         json_str = self._grouped_df.to_json()
         return json.loads(json_str)
+
+    def save_plot(self, filename):
+        plt.savefig(filename)
