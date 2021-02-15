@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 plot-wrappers.code-workspace
 reports/**/**
-temp.png
+temp*.png
+test_special.py
