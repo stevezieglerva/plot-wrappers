@@ -103,6 +103,29 @@ class GitLogUnit(unittest.TestCase):
         filename = "temp_git_log_forem_count.png"
         subject.save_plot(filename)
 
+    def test_constructor__given_forem_author__count_then_json_is_correct(self):
+        # Arrange
+        df = pd.read_csv(
+            "/Users/sziegler/Documents/Github/git-log-to-csv/forem_git_log.csv"
+        )
+        # commit_hash,epoch,timestamp,date,year,month,day,author,file,churn_count,dir_1,dir_2,dir_3,dir_4
+        # ce783c7,1576172319,2019-12-12T12:38:39,2019-12-12,2019,12,12,"Steve Ziegler",.gitignore,3,,,,
+
+        df["new_date"] = pd.to_datetime(df["date"], format="%Y-%m-%d").dt.to_period("M")
+
+        filtered = df
+        print(filtered)
+        subject = StackedHistogram(
+            "new_date",
+            "author",
+            "churn_count",
+            filtered,
+        )
+        subject.set_aggregation("count")
+
+        filename = "temp_git_log_forem_author.png"
+        subject.save_plot(filename)
+
     def test_constructor__given_forem_sum__then_json_is_correct(self):
         # Arrange
         df = pd.read_csv(

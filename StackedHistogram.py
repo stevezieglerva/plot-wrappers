@@ -40,7 +40,7 @@ class StackedHistogram:
             .to_frame()
         )
         largest_categories = largest_df.index.values.tolist()
-        print(largest_categories)
+        # print(largest_categories)
         filtered_to_largest = self._input_df[
             self._input_df[self._grouping_column].isin(largest_categories)
         ]
