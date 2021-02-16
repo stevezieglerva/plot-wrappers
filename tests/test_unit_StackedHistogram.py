@@ -187,6 +187,37 @@ class StackedHistogramUnit(unittest.TestCase):
         with self.assertRaises(AssertionError) as context:
             subject.set_chart_type("xyz")
 
+    def test_set_max_groupings__given_5__then_no_error(self):
+        # Arrange
+        df = pd.read_csv("tests/data/stackedhistogram_more_than_max.csv")
+        subject = StackedHistogram("category", "item", "quantity", df)
+
+        # Act
+        subject.set_max_groupings(5)
+
+        # Assert
+
+    def test_set_max_groupings__given_0__then_no_error(self):
+        # Arrange
+        df = pd.read_csv("tests/data/stackedhistogram_more_than_max.csv")
+        subject = StackedHistogram("category", "item", "quantity", df)
+
+        # Act
+        subject.set_max_groupings(0)
+
+        # Assert
+
+    def test_set_max_groupings__given_negative__then_no_error(self):
+        # Arrange
+        df = pd.read_csv("tests/data/stackedhistogram_more_than_max.csv")
+        subject = StackedHistogram("category", "item", "quantity", df)
+
+        # Act
+
+        # Assert
+        with self.assertRaises(AssertionError) as context:
+            subject.set_max_groupings(-1)
+
 
 if __name__ == "__main__":
     unittest.main()
