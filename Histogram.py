@@ -55,6 +55,8 @@ class Histogram:
                     self._primary_grouping_column,
                 ]
             )[self._value_column].count()
+        print(new_group)
+        new_group = new_group.sort_values(ascending=False)
         return new_group
 
     def _filter_to_largest_groupings(self):
