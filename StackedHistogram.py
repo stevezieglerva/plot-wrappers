@@ -7,18 +7,19 @@ import matplotlib.pyplot as plt
 class StackedHistogram:
     def __init__(
         self,
-        primary_secondary_grouping_column,
+        primary_grouping_column,
         secondary_grouping_column,
         value_column,
         df,
     ):
         self._max_groupings = 5
-        self._primary_secondary_grouping_column = primary_secondary_grouping_column
+        self._primary_grouping_column = primary_grouping_column
         self._secondary_grouping_column = secondary_grouping_column
         self._value_column = value_column
         self._aggregation = "sum"
         self._chart_type = "bar"
         self._input_df = df
+        plt.clf()
         plt.style.use("seaborn")
 
         # plt.show()
@@ -42,23 +43,21 @@ class StackedHistogram:
         self._chart_type = chart_type
 
     def _group_data(self):
-        print(f"prepping: {self._max_groupings}")
         prepped_df = self._input_df
         if self._max_groupings != 0:
-            print("filtering")
             prepped_df = self._filter_to_largest_groupings()
 
         if self._aggregation == "sum":
             new_group = prepped_df.groupby(
                 [
-                    self._primary_secondary_grouping_column,
+                    self._primary_grouping_column,
                     self._secondary_grouping_column,
                 ]
             )[self._value_column].sum()
         if self._aggregation == "count":
             new_group = prepped_df.groupby(
                 [
-                    self._primary_secondary_grouping_column,
+                    self._primary_grouping_column,
                     self._secondary_grouping_column,
                 ]
             )[self._value_column].count()
