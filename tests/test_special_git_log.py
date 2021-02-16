@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, Mock, PropertyMock, patch
 
 import pandas as pd
 
-from StackedHistogram import StackedHistogram
+from StackedDateHistogram import StackedDateHistogram
 
 
 class GitLogUnit(unittest.TestCase):
@@ -20,7 +20,7 @@ class GitLogUnit(unittest.TestCase):
 
         filtered = df
         print(filtered)
-        subject = StackedHistogram(
+        subject = StackedDateHistogram(
             "new_date",
             "dir_1",
             "churn_count",
@@ -44,7 +44,7 @@ class GitLogUnit(unittest.TestCase):
 
         filtered = df
         print(filtered)
-        subject = StackedHistogram(
+        subject = StackedDateHistogram(
             "new_date",
             "two_dirs",
             "churn_count",
@@ -68,7 +68,7 @@ class GitLogUnit(unittest.TestCase):
 
         filtered = df[df["dir_1"] != "useful_scripts"]
         print(filtered)
-        subject = StackedHistogram(
+        subject = StackedDateHistogram(
             "new_date",
             "two_dirs",
             "churn_count",
@@ -92,7 +92,7 @@ class GitLogUnit(unittest.TestCase):
 
         filtered = df
         print(filtered)
-        subject = StackedHistogram(
+        subject = StackedDateHistogram(
             "new_date",
             "two_dirs",
             "churn_count",
@@ -115,7 +115,7 @@ class GitLogUnit(unittest.TestCase):
 
         filtered = df
         print(filtered)
-        subject = StackedHistogram(
+        subject = StackedDateHistogram(
             "new_date",
             "author",
             "churn_count",
@@ -139,7 +139,7 @@ class GitLogUnit(unittest.TestCase):
 
         filtered = df
         print(filtered)
-        subject = StackedHistogram(
+        subject = StackedDateHistogram(
             "new_date",
             "two_dirs",
             "churn_count",
@@ -162,7 +162,7 @@ class GitLogUnit(unittest.TestCase):
 
         filtered = df
         print(filtered)
-        subject = StackedHistogram(
+        subject = StackedDateHistogram(
             "new_date",
             "two_dirs",
             "churn_count",
@@ -186,7 +186,7 @@ class GitLogUnit(unittest.TestCase):
 
         filtered = df
         print(filtered)
-        subject = StackedHistogram(
+        subject = StackedDateHistogram(
             "new_date",
             "two_dirs",
             "churn_count",
