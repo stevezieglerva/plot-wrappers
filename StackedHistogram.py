@@ -88,4 +88,5 @@ class StackedHistogram:
     def save_plot(self, filename):
         self._grouped_df = self._group_data().unstack()
         self._grouped_df.plot(kind=self._chart_type, stacked=True)
+        plt.tight_layout()
         plt.savefig(filename)
