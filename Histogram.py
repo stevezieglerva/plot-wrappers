@@ -56,7 +56,11 @@ class Histogram:
                 ]
             )[self._value_column].count()
         print(new_group)
-        new_group = new_group.sort_values(ascending=False)
+        ascending = False
+        if self._chart_type == "barh":
+            print("\n\n\nchanging sort order")
+            ascending = True
+        new_group = new_group.sort_values(ascending=ascending)
         return new_group
 
     def _filter_to_largest_groupings(self):
@@ -81,4 +85,5 @@ class Histogram:
     def save_plot(self, filename):
         self._grouped_df = self._group_data()
         self._grouped_df.plot(kind=self._chart_type)
+        plt.tight_layout()
         plt.savefig(filename)
