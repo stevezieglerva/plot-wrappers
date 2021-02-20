@@ -22,6 +22,40 @@ class HistogramUnit(unittest.TestCase):
         expected = {"fruit": 7, "meat": 6}
         self.assertEqual(results, expected)
 
+    def test_constructor__given_simple_csv_unique_count__then_json_is_correct(self):
+        # Arrange
+        df = pd.read_csv("tests/data/stackedhistogram_simple_unique_count.csv")
+        subject = Histogram("category", "item", df)
+        subject.set_aggregation("unique_count")
+
+        # Act
+        results = subject.to_json()
+        print(json.dumps(results, indent=3))
+        subject.save_plot("temp_unit_Histogram_simple_unique.png")
+
+        # Assert
+        expected = {"item": {"fruit": 3, "meat": 2}}
+        self.assertEqual(results, expected)
+
+    def test_constructor__given_simple_csv_unique_count_location__then_json_is_correct(
+        self,
+    ):
+        # Arrange
+        df = pd.read_csv("tests/data/stackedhistogram_simple_unique_count.csv")
+        subject = Histogram("item", "location", df)
+        subject.set_aggregation("unique_count")
+
+        # Act
+        results = subject.to_json()
+        print(json.dumps(results, indent=3))
+        subject.save_plot("temp_unit_Histogram_simple_unique_location.png")
+
+        # Assert
+        expected = {
+            "location": {"apple": 3, "banana": 1, "chicken": 2, "pear": 1, "steak": 1}
+        }
+        self.assertEqual(results, expected)
+
     def test_constructor__given_simple_csv_horizonal__then_json_is_correct(self):
         # Arrange
         df = pd.read_csv("tests/data/stackedhistogram_simple.csv")

@@ -25,7 +25,7 @@ class Histogram:
         self._max_groupings = max_groupings
 
     def set_aggregation(self, aggregation):
-        possible_values = ["sum", "count"]
+        possible_values = ["sum", "count", "unique_count"]
         assert (
             aggregation in possible_values
         ), f"aggregation must be one of: {possible_values}"
@@ -39,6 +39,8 @@ class Histogram:
         self._chart_type = chart_type
 
     def _group_data(self):
+        if self._aggregation == "unique_count":
+            return self._group_data_unique_count()
         prepped_df = self._input_df
         if self._max_groupings != 0:
             prepped_df = self._filter_to_largest_groupings()
@@ -55,12 +57,18 @@ class Histogram:
                     self._primary_grouping_column,
                 ]
             )[self._value_column].count()
-        print(new_group)
         ascending = False
         if self._chart_type == "barh":
-            print("\n\n\nchanging sort order")
             ascending = True
         new_group = new_group.sort_values(ascending=ascending)
+        return new_group
+
+    def _group_data_unique_count(self):
+        new_group = self._input_df.groupby(
+            [
+                self._primary_grouping_column,
+            ]
+        ).agg({self._value_column: "nunique"})
         return new_group
 
     def _filter_to_largest_groupings(self):
