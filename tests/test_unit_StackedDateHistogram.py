@@ -7,7 +7,7 @@ import pandas as pd
 from StackedDateHistogram import StackedDateHistogram
 
 
-class StackedHistGramUnit(unittest.TestCase):
+class StackedHistogramUnit(unittest.TestCase):
     def test_constructor__given_simple_csv__then_json_is_correct(self):
         # Arrange
         df = pd.read_csv("tests/data/stacked_simple.csv")

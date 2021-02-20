@@ -47,6 +47,26 @@ class StackedHistogramUnit(unittest.TestCase):
         }
         self.assertEqual(results, expected)
 
+    def test_constructor__given_simple_csv_unique__then_json_is_correct(self):
+        # Arrange
+        df = pd.read_csv("tests/data/stackedhistogram_simple_unique_count.csv")
+        subject = StackedHistogram("category", "item", "location", df)
+        subject.set_aggregation("unique_count")
+        subject.set_max_groupings(2)
+        subject.set_chart_type("barh")
+
+        # Act
+        results = subject.to_json()
+        print(json.dumps(results, indent=3))
+        subject.save_plot("temp_unit_StackedHistogram_simple_unique.png")
+
+        # Assert
+        expected = {
+            "('location', 'chicken')": {"fruit": None, "meat": 2.0},
+            "('location', 'apple')": {"fruit": 3.0, "meat": None},
+        }
+        self.assertEqual(results, expected)
+
     def test_constructor__given_more_than_max_csv__then_only_max_shown(self):
         # Arrange
         df = pd.read_csv("tests/data/stackedhistogram_more_than_max.csv")

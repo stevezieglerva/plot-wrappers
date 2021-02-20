@@ -69,19 +69,18 @@ class Histogram:
                 self._primary_grouping_column,
             ]
         ).agg({self._value_column: "nunique"})
-        ascending = False
-        if self._chart_type == "barh":
-            ascending = True
-        new_group = new_group.sort_values(by=self._value_column, ascending=ascending)
         print(f"grouping: {self._max_groupings}")
         largest_df = (
             new_group[self._value_column].nlargest(self._max_groupings).to_frame()
         )
-        print(largest_df)
         largest_categories = largest_df.index.values.tolist()
-        print(largest_categories)
-        print(new_group.info())
         filtered_to_largest = new_group[new_group.index.isin(largest_categories)]
+        ascending_option = False
+        if self._chart_type == "barh":
+            ascending_option = True
+        filtered_to_largest = filtered_to_largest.sort_values(
+            by=self._value_column, ascending=ascending_option
+        )
         return filtered_to_largest
 
     def _filter_to_largest_groupings(self):
