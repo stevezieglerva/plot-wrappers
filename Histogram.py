@@ -69,6 +69,10 @@ class Histogram:
                 self._primary_grouping_column,
             ]
         ).agg({self._value_column: "nunique"})
+        ascending = False
+        if self._chart_type == "barh":
+            ascending = True
+        new_group = new_group.sort_values(by=self._value_column, ascending=ascending)
         return new_group
 
     def _filter_to_largest_groupings(self):
