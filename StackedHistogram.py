@@ -69,7 +69,6 @@ class StackedHistogram:
         new_group = self._input_df.groupby(
             [self._primary_grouping_column, self._secondary_grouping_column]
         ).agg({self._value_column: "nunique"})
-        print(f"grouping: {self._max_groupings}")
         largest_df = (
             new_group[self._value_column].nlargest(self._max_groupings).to_frame()
         )
