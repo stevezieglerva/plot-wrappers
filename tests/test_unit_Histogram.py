@@ -56,6 +56,25 @@ class HistogramUnit(unittest.TestCase):
         }
         self.assertEqual(results, expected)
 
+    def test_constructor__given_simple_csv_unique_count_more_than_max__then_json_is_correct(
+        self,
+    ):
+        # Arrange
+        df = pd.read_csv("tests/data/stackedhistogram_simple_unique_count.csv")
+        subject = Histogram("item", "location", df)
+        subject.set_aggregation("unique_count")
+        subject.set_max_groupings(2)
+        print("*********")
+
+        # Act
+        results = subject.to_json()
+        print(json.dumps(results, indent=3))
+        subject.save_plot("temp_unit_Histogram_simple_unique_location_two_largest.png")
+
+        # Assert
+        expected = {"location": {"apple": 3, "chicken": 2}}
+        self.assertEqual(results, expected)
+
     def test_constructor__given_simple_csv_horizonal__then_json_is_correct(self):
         # Arrange
         df = pd.read_csv("tests/data/stackedhistogram_simple.csv")

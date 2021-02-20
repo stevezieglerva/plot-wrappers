@@ -73,7 +73,16 @@ class Histogram:
         if self._chart_type == "barh":
             ascending = True
         new_group = new_group.sort_values(by=self._value_column, ascending=ascending)
-        return new_group
+        print(f"grouping: {self._max_groupings}")
+        largest_df = (
+            new_group[self._value_column].nlargest(self._max_groupings).to_frame()
+        )
+        print(largest_df)
+        largest_categories = largest_df.index.values.tolist()
+        print(largest_categories)
+        print(new_group.info())
+        filtered_to_largest = new_group[new_group.index.isin(largest_categories)]
+        return filtered_to_largest
 
     def _filter_to_largest_groupings(self):
         largest_df = (
