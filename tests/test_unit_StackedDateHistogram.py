@@ -24,6 +24,38 @@ class StackedHistogramUnit(unittest.TestCase):
         }
         self.assertEqual(results, expected)
 
+    def test_constructor__given_different_date_format_csv_month__then_json_is_correct(
+        self,
+    ):
+        # Arrange
+        df = pd.read_csv("tests/data/stacked_different_date.csv")
+        subject = StackedDateHistogram("date", "fruit", "quantity", df)
+        subject.set_date_period("%m/%d/%y", "M")
+
+        # Act
+        results = subject.to_json()
+        print(json.dumps(results, indent=3))
+
+        # Assert
+        expected = {"apple": {"2021-01": 45}, "pears": {"2021-01": 25}}
+        self.assertEqual(results, expected)
+
+    def test_constructor__given_different_date_format_csv_year__then_json_is_correct(
+        self,
+    ):
+        # Arrange
+        df = pd.read_csv("tests/data/stacked_different_date.csv")
+        subject = StackedDateHistogram("date", "fruit", "quantity", df)
+        subject.set_date_period("%m/%d/%y", "Y")
+
+        # Act
+        results = subject.to_json()
+        print(json.dumps(results, indent=3))
+
+        # Assert
+        expected = {"apple": {"2021": 45}, "pears": {"2021": 25}}
+        self.assertEqual(results, expected)
+
     def test_constructor__given_more_than_max_csv__then_json_is_correct(self):
         # Arrange
         df = pd.read_csv("tests/data/stacked_more_than_max.csv")

@@ -14,6 +14,7 @@ class StackedDateHistogram:
     ):
         self._max_groupings = 5
         self._date_column_name = date_column_name
+        self._date_period_name = date_column_name
         self._grouping_column = grouping_column
         self._value_column = value_column
         self._aggregation = "sum"
@@ -40,6 +41,13 @@ class StackedDateHistogram:
         ), f"chart_type must be one of: {possible_values}"
         self._chart_type = chart_type
 
+    def set_date_period(self, date_format, period):
+        self._input_df["new_date"] = pd.to_datetime(
+            self._input_df[self._date_column_name], format=date_format
+        ).dt.to_period(period)
+        self._date_period_name = "new_date"
+        print(self._input_df)
+
     def _group_data(self):
         largest_df = (
             self._input_df.groupby([self._grouping_column])[self._value_column]
@@ -55,11 +63,11 @@ class StackedDateHistogram:
 
         if self._aggregation == "sum":
             new_group = filtered_to_largest.groupby(
-                [self._date_column_name, self._grouping_column]
+                [self._date_period_name, self._grouping_column]
             )[self._value_column].sum()
         if self._aggregation == "count":
             new_group = filtered_to_largest.groupby(
-                [self._date_column_name, self._grouping_column]
+                [self._date_period_name, self._grouping_column]
             )[self._value_column].count()
         return new_group
 

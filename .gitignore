@@ -132,4 +132,6 @@ reports/**/**
 temp*.png
 test_special*.py
 test_wf.csv
-
+test_money.py
+results.html
+money.html

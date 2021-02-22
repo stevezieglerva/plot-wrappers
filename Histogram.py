@@ -25,7 +25,7 @@ class Histogram:
         self._max_groupings = max_groupings
 
     def set_aggregation(self, aggregation):
-        possible_values = ["sum", "count", "unique_count"]
+        possible_values = ["sum", "count", "unique_count", "avg"]
         assert (
             aggregation in possible_values
         ), f"aggregation must be one of: {possible_values}"
