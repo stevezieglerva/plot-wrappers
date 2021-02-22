@@ -56,6 +56,17 @@ class StackedHistogramUnit(unittest.TestCase):
         expected = {"apple": {"2021": 45}, "pears": {"2021": 25}}
         self.assertEqual(results, expected)
 
+    def test_constructor__given_dates_spread__then_chart_shows_gaps_in_dates(
+        self,
+    ):
+        # Arrange
+        df = pd.read_csv("tests/data/stacked_dates_spread_on_chart.csv")
+        subject = StackedDateHistogram("date", "fruit", "quantity", df)
+        subject.set_date_period("%m/%d/%y", "m")
+
+        # Act
+        subject.save_plot("temp_unit_StackedDateHistogram_dates_spread.png")
+
     def test_constructor__given_more_than_max_csv__then_json_is_correct(self):
         # Arrange
         df = pd.read_csv("tests/data/stacked_more_than_max.csv")
