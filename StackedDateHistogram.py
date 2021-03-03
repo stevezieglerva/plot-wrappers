@@ -28,7 +28,7 @@ class StackedDateHistogram:
         self._max_groupings = max_groupings
 
     def set_aggregation(self, aggregation):
-        possible_values = ["sum", "count"]
+        possible_values = ["sum", "count", "unique_count"]
         assert (
             aggregation in possible_values
         ), f"aggregation must be one of: {possible_values}"
@@ -49,26 +49,57 @@ class StackedDateHistogram:
         print(self._input_df)
 
     def _group_data(self):
-        largest_df = (
-            self._input_df.groupby([self._grouping_column])[self._value_column]
-            .sum()
-            .nlargest(self._max_groupings)
-            .to_frame()
-        )
-        largest_categories = largest_df.index.values.tolist()
-        # print(largest_categories)
-        filtered_to_largest = self._input_df[
-            self._input_df[self._grouping_column].isin(largest_categories)
-        ]
 
         if self._aggregation == "sum":
+            largest_df = (
+                self._input_df.groupby([self._grouping_column])[self._value_column]
+                .sum()
+                .nlargest(self._max_groupings)
+                .to_frame()
+            )
+            largest_categories = largest_df.index.values.tolist()
+            # print(largest_categories)
+            filtered_to_largest = self._input_df[
+                self._input_df[self._grouping_column].isin(largest_categories)
+            ]
+
             new_group = filtered_to_largest.groupby(
                 [self._date_period_name, self._grouping_column]
             )[self._value_column].sum()
+
         if self._aggregation == "count":
+            largest_df = (
+                self._input_df.groupby([self._grouping_column])[self._value_column]
+                .count()
+                .nlargest(self._max_groupings)
+                .to_frame()
+            )
+            largest_categories = largest_df.index.values.tolist()
+            # print(largest_categories)
+            filtered_to_largest = self._input_df[
+                self._input_df[self._grouping_column].isin(largest_categories)
+            ]
+
             new_group = filtered_to_largest.groupby(
                 [self._date_period_name, self._grouping_column]
             )[self._value_column].count()
+
+        if self._aggregation == "unique_count":
+            largest_df = (
+                self._input_df.groupby([self._grouping_column])[self._value_column]
+                .nunique()
+                .nlargest(self._max_groupings)
+                .to_frame()
+            )
+            largest_categories = largest_df.index.values.tolist()
+            # print(largest_categories)
+            filtered_to_largest = self._input_df[
+                self._input_df[self._grouping_column].isin(largest_categories)
+            ]
+
+            new_group = filtered_to_largest.groupby(
+                [self._date_period_name, self._grouping_column]
+            )[self._value_column].nunique()
         return new_group
 
     def to_json(self):
