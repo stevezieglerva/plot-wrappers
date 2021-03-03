@@ -118,4 +118,7 @@ class StackedHistogram:
         self._grouped_df = self._group_data().unstack()
         self._grouped_df.plot(kind=self._chart_type, stacked=True)
         plt.tight_layout()
+        legend = plt.legend(frameon=1)
+        frame = legend.get_frame()
+        frame.set_facecolor("white")
         plt.savefig(filename)

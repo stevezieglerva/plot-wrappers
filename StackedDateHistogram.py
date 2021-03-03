@@ -109,6 +109,15 @@ class StackedDateHistogram:
         return json_dict
 
     def save_plot(self, filename):
+        fig, ax = plt.subplots()
         self._grouped_df = self._group_data().unstack()
-        self._grouped_df.plot(kind=self._chart_type, stacked=True)
+        if self._chart_type == "bar":
+            self._grouped_df.plot(kind=self._chart_type, stacked=True, width=0.8, ax=ax)
+        else:
+            self._grouped_df.plot(kind=self._chart_type, stacked=True, ax=ax)
+        plt.xticks(rotation=90)
+        legend = plt.legend(frameon=1)
+        frame = legend.get_frame()
+        frame.set_facecolor("white")
+        plt.tight_layout()
         plt.savefig(filename)
