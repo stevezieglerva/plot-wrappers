@@ -83,12 +83,24 @@ class Histogram:
         return filtered_to_largest
 
     def _filter_to_largest_groupings(self):
-        largest_df = (
-            self._input_df.groupby([self._primary_grouping_column])[self._value_column]
-            .sum()
-            .nlargest(self._max_groupings)
-            .to_frame()
-        )
+        if self._aggregation == "sum":
+            largest_df = (
+                self._input_df.groupby([self._primary_grouping_column])[
+                    self._value_column
+                ]
+                .sum()
+                .nlargest(self._max_groupings)
+                .to_frame()
+            )
+        else:
+            largest_df = (
+                self._input_df.groupby([self._primary_grouping_column])[
+                    self._value_column
+                ]
+                .count()
+                .nlargest(self._max_groupings)
+                .to_frame()
+            )
         largest_categories = largest_df.index.values.tolist()
         filtered_to_largest = self._input_df[
             self._input_df[self._primary_grouping_column].isin(largest_categories)

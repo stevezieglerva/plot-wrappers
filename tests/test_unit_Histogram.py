@@ -22,6 +22,22 @@ class HistogramUnit(unittest.TestCase):
         expected = {"fruit": 7, "meat": 6}
         self.assertEqual(results, expected)
 
+    def test_constructor__given_simple_csv_count__then_json_is_correct(self):
+        # Arrange
+        df = pd.read_csv("tests/data/stackedhistogram_simple_count.csv")
+        subject = Histogram("category", "item", df)
+        subject.set_aggregation("count")
+        subject.set_max_groupings(3)
+
+        # Act
+        results = subject.to_json()
+        print(json.dumps(results, indent=3))
+        subject.save_plot("temp_unit_Histogram_simple.png")
+
+        # Assert
+        expected = {"fruit": 3, "chips": 2, "soda": 2}
+        self.assertEqual(results, expected)
+
     def test_constructor__given_simple_csv_unique_count__then_json_is_correct(self):
         # Arrange
         df = pd.read_csv("tests/data/stackedhistogram_simple_unique_count.csv")
