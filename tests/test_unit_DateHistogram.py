@@ -24,22 +24,22 @@ class DateHistogramUnit(unittest.TestCase):
         }
         self.assertEqual(results, expected)
 
-    # def test_constructor__given_simple_csv_unique_count__then_json_is_correct(self):
-    #     # Arrange
-    #     df = pd.read_csv("tests/data/stacked_unique.csv")
-    #     subject = DateHistogram("date", "fruit", "aisle", df)
-    #     subject.set_aggregation("unique_count")
+    def test_constructor__given_simple_csv_unique_count__then_json_is_correct(self):
+        # Arrange
+        df = pd.read_csv("tests/data/stacked_unique.csv")
+        subject = DateHistogram("date", "aisle", df)
+        subject.set_aggregation("unique_count")
 
-    #     # Act
-    #     results = subject.to_json()
-    #     print(json.dumps(results, indent=3))
+        # Act
+        results = subject.to_json()
+        print(json.dumps(results, indent=3))
 
-    #     # Assert
-    #     expected = {
-    #         "apple": {"2021-05-07": 1, "2021-05-08": 1},
-    #         "pears": {"2021-05-07": 1, "2021-05-08": 2},
-    #     }
-    #     self.assertEqual(results, expected)
+        # Assert
+        expected = {
+            "2021-05-07": 2,
+            "2021-05-08": 3,
+        }
+        self.assertEqual(results, expected)
 
     # def test_constructor__given_different_date_format_csv_month__then_json_is_correct(
     #     self,
